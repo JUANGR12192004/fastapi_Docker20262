@@ -1,0 +1,37 @@
+{
+  "info": {
+    "_postman_id": "c0a1b2c3-d4e5-6789-abcd-ef0123456789",
+    "name": "Obtener Cedula API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Obtener Cedula",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://{{host}}:{{port}}/obtener_cedula",
+          "host": [
+            "{{host}}"
+          ],
+          "port": "{{port}}",
+          "path": [
+            "obtener_cedula"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "host",
+      "value": "127.0.0.1"
+    },
+    {
+      "key": "port",
+      "value": "8000"
+    }
+  ]
+}
