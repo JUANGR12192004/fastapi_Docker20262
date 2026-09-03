@@ -100,4 +100,43 @@ Archivos relevantes
 - [docker-compose.yml](docker-compose.yml) — levantar el servicio con Docker Compose.
 - [postman_collection.json](postman_collection.json) — colección Postman lista para importar.
 
+Despliegue continuo con GitHub Actions y Render
+----------------------------------------------
+
+Este repositorio incluye un workflow de GitHub Actions que dispara un despliegue en Render cada vez que se hace `push` a la rama `main`.
+
+Archivo del workflow: `.github/workflows/deploy_render.yml`.
+
+Configuración requerida en GitHub:
+
+1. Ve a `Settings > Secrets and variables > Actions` en tu repositorio.
+2. Añade los siguientes secretos:
+	- `RENDER_API_KEY` — tu API Key de Render (con permisos para crear deploys).
+	- `RENDER_SERVICE_ID` — el `service id` de tu servicio en Render (algo como `srv-...`).
+
+Cómo funciona el workflow:
+
+- En cada `push` a `main`, la acción ejecuta una petición HTTP POST a la API de Render:
+
+```
+POST https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys
+Authorization: Bearer ${{ secrets.RENDER_API_KEY }}
+Content-Type: application/json
+Body: {}
+```
+
+- Render iniciará la construcción y publicación del servicio según su configuración (Build Command, Start Command, etc.) definida en el panel de Render.
+
+Notas y seguridad
+-----------------
+
+- No guardes tu `RENDER_API_KEY` en código ni en archivos públicos. Usa los `Secrets` de GitHub Actions.
+- Si prefieres que solo algunos cambios desencadenen el despliegue, modifica la sección `on:` del workflow (por ejemplo, limitar a determinados paths).
+
+Prueba manual
+-------------
+
+Puedes probar el endpoint del workflow forzando un push a `main` o creando un commit y abriendo un PR y mergeándolo.
+
+
 
