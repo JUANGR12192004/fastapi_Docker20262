@@ -6,8 +6,11 @@ WORKDIR /app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar aplicación
-COPY . .
+# Copiar aplicación de forma selectiva para evitar añadir datos confidenciales
+# Copiar sólo los ficheros necesarios al contenedor
+COPY main.py ./
+# Si añade módulos o paquetes, copie las carpetas necesarias, por ejemplo:
+# COPY app/ ./app/
 
 EXPOSE 8000
 
