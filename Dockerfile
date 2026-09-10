@@ -4,7 +4,11 @@ WORKDIR /app
 
 # Instalar dependencias
 COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+# Evitar la ejecución de scripts de configuración al instalar paquetes
+# forzando el uso de ruedas binarias cuando sea posible.
+# Si algún paquete no ofrece rueda, la instalación fallará; en ese caso
+# considerar usar ruedas preparadas o permitir paquetes fuente de confianza.
+RUN pip install --no-cache-dir --only-binary=:all: -r requirements.txt
 
 # Copiar aplicación de forma selectiva para evitar añadir datos confidenciales
 # Copiar sólo los ficheros necesarios al contenedor
